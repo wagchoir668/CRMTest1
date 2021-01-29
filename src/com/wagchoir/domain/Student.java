@@ -6,7 +6,6 @@ public class Student {
     private Integer age;
     private String address;
     private String gender;
-    private String cup;
 
     public String getAddress() {
         return address;
