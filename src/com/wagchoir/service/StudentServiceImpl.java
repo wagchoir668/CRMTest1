@@ -27,4 +27,6 @@ public class StudentServiceImpl implements StudentService{
         List<Student> list = studentDao.getAllStudents();
         return list;
     }
+
+    public void f1(){}
 }
