@@ -6,6 +6,7 @@ public class Student {
     private Integer age;
     private String address;
     private String gender;
+    private int score;
 
     public String getAddress() {
         return address;
