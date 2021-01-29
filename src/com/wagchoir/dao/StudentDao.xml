@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wagchoir.dao.StudentDao">
+    <select id="getAllStudents" resultType="Student">
+        select name,id,age from t_student
+    </select>
+
+    <select id="getById" parameterType="String"
+            resultType="com.wagchoir.domain.Student">
+        select id,age,name from t_student where id=#{stuid}
+    </select>
+
+    <select id="selectStu" resultMap="resultMap">
+        select id,stuname,age from t_student where id='${value}'
+    </select>
+
+    <insert id="save">
+        insert into t_student(id,name,age) values(#{id},#{name},#{age})
+    </insert>
+
+    <select id="selectList" resultType="Student" parameterType="int">
+        select id,age,name from t_student where age=#{age}
+    </select>
+
+    <select id="select2" resultType="Student" parameterType="Student">
+        select id,age,name from t_student where name=#{name} and age=#{age}
+    </select>
+
+    <select id="select3" parameterType="map" resultType="Student">
+        select id,age,name from t_student where name=#{name} and age=#{age}
+    </select>
+
+    <select id="select6" resultType="Student">
+        select id,age,name from t_student where name like '%' #{name} '%'
+    </select>
+
+    <select id="select8" resultType="String">
+        select name from t_student 
+    </select>
+
+    <select id="select9" resultType="map">
+        select id,name,age from t_student
+    </select>
+
+    <select id="select10" resultType="map">
+        select name,count(*) as number from t_student group by name
+    </select>
+
+    <resultMap id="resultMap" type="Student">
+        <id property="id" column="id"/>
+        <result property="name" column="stuname"/>
+        <result property="age" column="age"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <select id="select18" resultMap="resultMap">
+        select stuname,id,age,address from t_student
+        <where>
+            <if test="name!=null and name!=''">
+                stuname like '%' #{name} '%'
+            </if>
+
+            <if test="address!=null and address!=''">
+                and address like '%' #{address} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="select19" resultMap="resultMap">
+        select stuname,id,age,address from t_student
+        where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <sql id="sql1">
+        select stuname,age,id,address from t_student
+    </sql>
+
+    <select id="select20" resultMap="resultMap">
+        <include refid="sql1"/> where id=#{id}
+    </select>
+
+    <select id="select21" resultType="map">
+        select s.stuname,c.roomname from t_student s join t_classroom c
+        on s.classroomId=c.id;
+    </select>
+
+    <select id="select22" resultType="StudentAndClassroomVO">
+        select s.stuname as sname, s.id as sid, s.age as sage,
+        s.address as saddress, c.id as cid, c.roomname as cname
+        from t_student s join t_classroom c
+        on s.classroomId=c.id
+        where s.stuname like '%' #{name} '%'
+    </select>
+</mapper>
